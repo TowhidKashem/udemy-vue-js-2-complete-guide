@@ -33,12 +33,14 @@ new Vue({
       ]);
     },
     heal: function() {
-      this.scoreMe += 10;
-      this.scoreMonster -= 5;
-      this.logs.push([
-        { txt: "Player Hits Monster for", score: 5 },
-        { txt: "Player Heals Himself for", score: 10 }
-      ]);
+      if (this.scoreMe < 100) {
+        this.scoreMe += 10;
+        this.scoreMonster -= 5;
+        this.logs.push([
+          { txt: "Player Hits Monster for", score: 5 },
+          { txt: "Player Heals Himself for", score: 10 }
+        ]);
+      }
     },
     giveUp: function() {
       this.inProgress = false;
