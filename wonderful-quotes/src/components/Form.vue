@@ -1,0 +1,30 @@
+<template>
+    <div class="well">
+        {{ quote }}
+       <form @submit="addQuote">
+           <label>Quote</label>
+           <textarea class="form-control" v-model="quote"></textarea><br>
+           <button class="btn btn-primary">Add Quote</button>
+       </form>
+    </div>
+</template>
+
+<script>
+    export default {
+        props: ['curQuotes', 'maxQuotes'],
+        data: function() {
+            return {
+                quote: ''
+            }
+        },
+        methods: {
+            addQuote(e) {
+                e.preventDefault();
+                this.$emit('addQuote');
+            }
+        }
+    }
+</script>
+
+<style>
+</style>
