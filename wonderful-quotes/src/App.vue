@@ -5,7 +5,7 @@
         <app-form @addQuote="addQuoteHandler"></app-form>
 
         <div class="row" v-if="quotes">
-            <app-quote v-for="(quote, index) in quotes" :key="index" :quote="quote" :index="index" :deleteQuoteHandler="deleteQuoteHandler"></app-quote> 
+            <app-quote v-for="(quote, index) in quotes" :key="index" :quote="quote" :index="index" @click.native="deleteQuoteHandler(index)"></app-quote> 
         </div>
 
         <div class="alert alert-info">Click on a quote to delete it</div>
@@ -26,13 +26,13 @@
         data() {
             return {
                 curQuotes: 1,
-                maxQuotes: 5,
+                maxQuotes: 10,
                 quotes: ['A quote to get you started!']
             }
         },
         methods: {
             addQuoteHandler(quote) {
-                if (this.curQuotes !== 5) {
+                if (this.curQuotes !== this.maxQuotes) {
                     this.quotes.push(quote);
                     this.curQuotes++;
                 } else {
