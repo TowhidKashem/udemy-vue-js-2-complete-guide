@@ -1,6 +1,5 @@
 <template>
     <div class="well">
-        {{ quote }}
        <form @submit="addQuote">
            <label>Quote</label>
            <textarea class="form-control" v-model="quote"></textarea><br>
@@ -20,7 +19,8 @@
         methods: {
             addQuote(e) {
                 e.preventDefault();
-                this.$emit('addQuote');
+                this.$emit('addQuote', this.quote);
+                this.quote = '';
             }
         }
     }
