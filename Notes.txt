@@ -1,0 +1,142 @@
+Data flow:
+
+  Props flow unidirectional, parent to child and back but never child to nested child, to pass updated data to another child send it back to parent and have that send 
+  it down to the new child
+
+  Child sends data back to parent either via callback or by firing a custom event that the parent listens for
+
+  An “event bus” method can be used to do the same flow as above but in one place by making a new Vue instance and storing state in it and just importing it everywhere 
+  its needed, minimizes the complexity a bit
+
+———
+
+To output multiline props use slots:
+
+  <app-quote>
+    <h2>Hello World</h2>
+    <p>Wow amazing work!</p>
+  </app-quote>
+
+In app-quote component:
+
+  <slot></slot> // Will print the wrapped content
+
+Multipart slots:
+
+  <app-quote>
+    <h2 slot=“title”>Hello World</h2>
+    <p slot=“body”>Wow amazing work!</p>
+  </app-quote>
+
+Then in the component:
+
+	<h1><slot name=“title”></slot></h1>
+	<p>
+		<slot name=“body”></slot>
+	</p>
+
+You can use a combination of named and unnamed too, unnamed will be everything without the slot attribute
+
+Slots can have default values in case one wasn’t passed in:
+
+	<some-slot>Hello World</some-slot>
+
+———
+
+Dynamically load components:
+
+	<component :is=“variableHoldingComponent”></component>
+
+“variableHoldingComponet” is pointing to an import of a component which you can change in your code by flipping through different ones at any time
+
+Dynamic components get destroyed every time they are replaced, to keep them alive wrap them in a “<keep-alive>” tag
+
+If you want to use “destroy()” but want to still keep them alive use “activated()” and “deactivated()” lifecycle hooks instead
+
+————
+
+Detect an event on a component tag:
+
+	<app-quote @click.native="deleteQuoteHandler(index)”></app-quote>
+
+——
+
+If you want to retain line breaks in v-model set the style of the containing element to “white-space: pre”. This is a CSS not a vue thing.
+
+——
+
+Update the model only on input blur using the “lazy” modifier:
+
+	v-model.lazy=“foo”
+
+——
+
+Binding multiple form elements to an array using v-model will add the values of those elements to that same array, useful for checkboxes for example
+
+——
+
+Giving a v-model variable a default value and assigning it to a <select> dropdown field will make the option with that default value the preselected one
+
+——
+
+Globally registered directive:
+
+  Vue.directive('highlight', {
+    bind(el, binding, vnode) {
+      let delay = 0;
+      if (binding.modifiers.delayed) {
+        delay = 3000;
+      }
+      setTimeout(() => {
+        if (binding.arg === 'background') {
+          el.style.backgroundColor = binding.value;
+        } else {
+          el.style.color = binding.value;
+        }
+      }, delay);
+    }
+  });
+
+
+Usage:
+
+	"background" is the argument, "delayed" is a modifier (there can be many chained), "red" is the value:
+
+	<p v-highlight:background.delayed="'red'">Some text here...</p> 
+
+
+Locally registered directive:
+
+  export default {
+    directives: {
+      'highlight': {
+        bind(el, binding, vnode) {
+          // Same old directive code here...
+        }
+      }
+    }
+  }
+
+----
+
+Locally registered filter:
+
+  export default {
+    filters: {
+      toUppercase(value) {
+        return value.toUppercase();
+      }
+    }
+  }
+
+Globally registered:
+
+  Vue.filter('toUppercase', (value) => {
+    // Same old filter code...
+  });
+
+Usage:
+
+  {{ text | toUppercase }} // Filters can also be chained
+
+
