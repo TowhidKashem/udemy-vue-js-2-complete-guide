@@ -117,7 +117,7 @@ Locally registered directive:
     }
   }
 
-----
+——
 
 Locally registered filter:
 
@@ -139,4 +139,22 @@ Usage:
 
   {{ text | toUppercase }} // Filters can also be chained
 
+——
 
+Computed = depends on something else and gets recalculated
+
+
+------------------------------------------
+VueX
+------------------------------------------
+
+Mutations always have to be synchronous
+
+To perform async mutatons you must use actions
+
+Don't call mutation handlers directly even for non async requests, it's a best practise to always call actions from components which will 
+trigger a mutation instead
+
+Getters let you access state in different components, when used they will get updated to reflect state changes
+
+To use 2 way data binding for values in the store, use setters() and getters() in computed properties
